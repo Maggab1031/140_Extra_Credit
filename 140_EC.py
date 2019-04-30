@@ -36,6 +36,8 @@ class Sort():
 
 class Mergesort(Sort):
 
+    name = "merge"
+
     def sort(lst):
         l = lst.copy()
         n = len(lst)
@@ -65,6 +67,8 @@ class Mergesort(Sort):
 
 class Insertion_Sort(Sort):
 
+    name = "insertion"
+
     def sort(list):
         l = list.copy()
         res = [l[0]]
@@ -78,41 +82,43 @@ class Insertion_Sort(Sort):
 
 class Radix_Sort():
 
+    name = "radix"
+
     def sort(list):
         return list
 
+def compare(lst_of_comparison_functions):
+        d = {}
+        for func in lst_of_comparison_functions:
+            d[func.name] = {}
+        max = 10000
+        max_length = 10
+        iterations = 100
+        for i in range(max_length):
+            n = 2**i
+            sub_d = {}
+            for func in lst_of_comparison_functions:
+                sub_d[func.name] = 0.0
+            for i in range(iterations):
+                lst = random_list_of_ints(n,0,max)
+                for func in lst_of_comparison_functions:
+                    start = time.time()
+                    func.sort(lst)
+                    total = time.time() - start
+                    sub_d[func.name] = sub_d[func.name] + total
+            for func in lst_of_comparison_functions:
+                d[func.name][n] = sub_d[func.name]/iterations
+        return d
 
 def main():
-    max = 1000
-    max_length = 12
-    iterations = 100
-    d = {}
-    d["merge"] = {}
-    d["insertion"] = {}
-    for i in range(max_length):
-        n = 2**i
-        print(n)
-        total_n_merge = 0.0
-        total_n_insertion = 0.0
-        for i in range(iterations):
-            lst = random_list_of_ints(n,0,max)
-            start = time.time()
-            Insertion_Sort.sort(lst)
-            total = time.time() - start
-            total_n_insertion = total_n_insertion + total
+    max_length = 10
+    d = compare([Insertion_Sort,Mergesort])
+    plt.plot([2**i for i in range(max_length)], [d["merge"][2**i] for i in range(max_length)], 'r--', linewidth=2, markersize=12,label="merge")
+    plt.plot([2**i for i in range(max_length)], [d["insertion"][2**i] for i in range(max_length)], 'b--',label="insertion")
+    plt.ylabel('time in seconds')
+    plt.xlabel('n')
+    plt.show()
 
-            start = time.time()
-            Mergesort.sort(lst)
-            total = time.time() - start
-            total_n_merge = total_n_merge + total
-        d["merge"][n] = total_n_merge/iterations
-        d["insertion"][n] = total_n_insertion/iterations
-    for i in range(max_length):
-        n = 2**i
-        print(n)
-        print("merge:",d["merge"][n])
-        print("insertion:",d["insertion"][n])
-    return d
 
 if __name__ == '__main__':
     main()
