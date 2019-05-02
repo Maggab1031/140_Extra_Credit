@@ -2,6 +2,7 @@ import os
 import random
 import time
 import matplotlib.pyplot as plt
+import math
 
 """
 Create a program to investigate any of the following:
@@ -84,8 +85,23 @@ class Radix_Sort():
 
     name = "radix"
 
-    def sort(list):
+    def sort(list,base,x=0):
+        if x==0:
+            x = max(list)
+        d = len(toBase(x,base))
+        for i in range(1,d+1):
+
         return list
+
+def toBase(n,base):
+   convertString = "0123456789"
+   if n < base:
+      return convertString[n]
+   else:
+      return toStr(n//base,base) + convertString[n%base]
+
+def compare_radix_sort():
+    pass
 
 def compare(lst_of_comparison_functions):
         d = {}
@@ -112,12 +128,15 @@ def compare(lst_of_comparison_functions):
 
 def main():
     max_length = 10
+    print(toBase(9,3))
+    """
     d = compare([Insertion_Sort,Mergesort])
     plt.plot([2**i for i in range(max_length)], [d["merge"][2**i] for i in range(max_length)], 'r--', linewidth=2, markersize=12,label="merge")
     plt.plot([2**i for i in range(max_length)], [d["insertion"][2**i] for i in range(max_length)], 'b--',label="insertion")
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
+    """
 
 
 if __name__ == '__main__':
