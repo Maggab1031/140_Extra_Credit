@@ -4,24 +4,10 @@ import time
 import matplotlib.pyplot as plt
 import math
 
-"""
-Create a program to investigate any of the following:
 
-1. For what values of n is insertion sort faster than mergesort?
-2. What base is best to use with Radix sort when sorting lists with random ints?
-3. For Dijkstra's algorithm, when is using a binary heap better than a Fibonacci heap?
-4. What is the constant factor in Quicksort's and Merge sort's Θ(nlogn) runtime on random lists?
-5. Another interesting question related to our class. (Requires prior approval from me)
 
-Terms and conditions:
-1. You are allowed to copy code for the algorithms/data structures, but your testing code should be all your own and you should provide references to where you obtained any code you did not write.
-2. I reserve the right to ask for changes if I am unconvinced your code reveals the correct answer. For example, simply sorting one list with insertion sort and merge sort is insufficient evidence to support a conclusion.
-3. Your submission should include your code and a pdf write up that interprets the results of your program with a figure of relevant output. For example, a table of average run time with different bases and different
-n's and an explanation of which base appears to be the best.
-4. I will award extra credit for investigating at most two of the topics.
-5. To submit, create a github, gitlab, bitbucket, or similar public repository and send me a link via email. Your repository should include both your code and the write up.
-6. Submissions should be sent in on or before May 8th (the last day of class).
-"""
+
+
 
 #inclusive for floor and ceiling
 def random_list_of_ints(size,floor,ceiling):
@@ -35,10 +21,54 @@ class Sort():
     def sort(list):
         return list
 
+class Radix_Sort(Sort):
+
+    name = "radix"
+
+    @staticmethod
+    def sort( lst, RADIX =10 ):
+        aList = lst.copy()
+        maxLength = False
+        tmp , placement = -1, 1
+        while not maxLength:
+            maxLength = True
+            # declare and initialize buckets
+            buckets = [list() for _ in range( RADIX )]
+            # split aList between lists
+            for i in aList:
+                tmp = i / placement
+                buckets[int(tmp % RADIX)].append( i )
+                if maxLength and int(tmp) > 0:
+                    maxLength = False
+            # empty lists into aList array
+            a = 0
+            for b in range( RADIX ):
+                buck = buckets[b]
+                for i in buck:
+                    aList[a] = i
+                    a += 1
+            # move to next digit
+            placement *= RADIX
+        return aList
+
+def toBase(n,base):
+    return int(toString(n,base))
+
+def toString(n,base):
+   convertString = "0123456789"
+   if n < base:
+      return convertString[n]
+   else:
+      return toString(n//base,base) + convertString[n%base]
+
+
+
+
 class Mergesort(Sort):
 
     name = "merge"
 
+    @staticmethod
     def sort(lst):
         l = lst.copy()
         n = len(lst)
@@ -70,6 +100,7 @@ class Insertion_Sort(Sort):
 
     name = "insertion"
 
+    @staticmethod
     def sort(list):
         l = list.copy()
         res = [l[0]]
@@ -81,27 +112,29 @@ class Insertion_Sort(Sort):
             res = res[:j]+[i]+res[j:]
         return res
 
-class Radix_Sort():
+def compare_radix_sort(floor=2,ceiling=10):
+    d = {}
+    for i in range(floor,ceiling+1):
+        d[i] = {}
+    max = 10000
+    max_length = 10
+    iterations = 100
+    for j in range(max_length):
+        n = 2**j
+        sub_d = {}
+        for i in range(floor,ceiling+1):
+            sub_d[i] = 0.0
+        for k in range(iterations):
+            lst = random_list_of_ints(n,0,max)
+            for i in range(floor,ceiling+1):
+                start = time.time()
+                Radix_Sort.sort(lst,i)
+                total = time.time() - start
+                sub_d[i] = sub_d[i] + total
+        for i in range(floor,ceiling+1):
+            d[i][n] = sub_d[i]/iterations
+    return d
 
-    name = "radix"
-
-    def sort(list,base,x=0):
-        if x==0:
-            x = max(list)
-        d = len(toBase(x,base))
-        for i in range(1,d+1):
-
-        return list
-
-def toBase(n,base):
-   convertString = "0123456789"
-   if n < base:
-      return convertString[n]
-   else:
-      return toStr(n//base,base) + convertString[n%base]
-
-def compare_radix_sort():
-    pass
 
 def compare(lst_of_comparison_functions):
         d = {}
@@ -119,6 +152,7 @@ def compare(lst_of_comparison_functions):
                 lst = random_list_of_ints(n,0,max)
                 for func in lst_of_comparison_functions:
                     start = time.time()
+                    print(lst)
                     func.sort(lst)
                     total = time.time() - start
                     sub_d[func.name] = sub_d[func.name] + total
@@ -128,15 +162,36 @@ def compare(lst_of_comparison_functions):
 
 def main():
     max_length = 10
-    print(toBase(9,3))
+    d = compare_radix_sort(96,100)
+
     """
     d = compare([Insertion_Sort,Mergesort])
     plt.plot([2**i for i in range(max_length)], [d["merge"][2**i] for i in range(max_length)], 'r--', linewidth=2, markersize=12,label="merge")
     plt.plot([2**i for i in range(max_length)], [d["insertion"][2**i] for i in range(max_length)], 'b--',label="insertion")
+    pylab.legend(loc='upper left')
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
     """
+    b = {}
+    i = 0
+    l = ["b*","g*",'r*','c*','m*',"y*","k*",'g^',"r^","b^"]
+    for base in d.keys():
+        b[base] = l[i]
+        i = i + 1
+    for base in d.keys():
+        plt.plot([2**i for i in range(max_length)], [d[base][2**i] for i in range(max_length)], b[base], linewidth=2, markersize=12,label=str(base))
+    plt.legend(loc='upper left')
+    plt.ylabel('time in seconds')
+    plt.xlabel('n')
+    plt.show()
+    start = time.time()
+    while start-time.time()<120:
+        pass
+    exit()
+
+
+
 
 
 if __name__ == '__main__':
