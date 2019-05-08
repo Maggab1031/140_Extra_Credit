@@ -19,7 +19,7 @@ I implemented Radix sort using the recomendations I found online at Geeksforgeek
 
 
 If you are interested in the raw averages, here they are:
-                     2                   4                   8                  16                  32                  64     # Radix Base
+# Radix Base
 | 2 |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  |
 |---|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
 |  5|0.000020|0.000030|0.000051|0.000076|0.000114|0.000185|0.000313|0.000657|0.001225|0.002525|
