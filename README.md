@@ -16,3 +16,6 @@ n's and an explanation of which base appears to be the best.
 4. I will award extra credit for investigating at most two of the topics.
 5. To submit, create a github, gitlab, bitbucket, or similar public repository and send me a link via email. Your repository should include both your code and the write up.
 6. Submissions should be sent in on or before May 8th (the last day of class).
+
+
+![Graph of Merge v Insertion](https://github.com/Maggab1031/140_Extra_Credit/blob/master/merge_v_insertion.png "Merge v Insertion")
