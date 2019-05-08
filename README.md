@@ -1,5 +1,5 @@
-# 140_Extra_Credit
-Extra Credit for 140
+# CS140 Extra Credit
+## Gabe Magee
 
 
 1. For what values of n is insertion sort faster than mergesort?
