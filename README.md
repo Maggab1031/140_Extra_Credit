@@ -19,3 +19,7 @@ n's and an explanation of which base appears to be the best.
 
 
 ![Graph of Merge v Insertion](https://github.com/Maggab1031/140_Extra_Credit/blob/master/merge_v_insertion.png "Merge v Insertion")
+
+
+
+![Graph of Radix](https://github.com/Maggab1031/140_Extra_Credit/blob/master/radix.png "Radix")
