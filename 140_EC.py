@@ -112,38 +112,46 @@ class Insertion_Sort(Sort):
             res = res[:j]+[i]+res[j:]
         return res
 
-def compare_radix_sort(floor=2,ceiling=10):
+def compare_radix_sort(floor=2,ceiling=10,max_length=10):
     d = {}
     for i in range(floor,ceiling+1):
-        d[i] = {}
+        d[str(i)] = {}
+    d["n"] = {}
     max = 10000
-    max_length = 10
     iterations = 100
-    for j in range(max_length):
+    for j in range(1,max_length):
+        print(j)
         n = 2**j
         sub_d = {}
+        sub_d["n"] = 0.0
         for i in range(floor,ceiling+1):
-            sub_d[i] = 0.0
+            sub_d[str(i)] = 0.0
         for k in range(iterations):
             lst = random_list_of_ints(n,0,max)
+            start = time.time()
+            Radix_Sort.sort(lst,n)
+            total = time.time() - start
+            sub_d["n"] = sub_d["n"] + total
             for i in range(floor,ceiling+1):
                 start = time.time()
                 Radix_Sort.sort(lst,i)
                 total = time.time() - start
-                sub_d[i] = sub_d[i] + total
+                sub_d[str(i)] = sub_d[str(i)] + total
         for i in range(floor,ceiling+1):
-            d[i][n] = sub_d[i]/iterations
+            d[str(i)][n] = sub_d[str(i)]/iterations
+        d["n"][n] = sub_d["n"]/iterations
     return d
 
 
-def compare(lst_of_comparison_functions):
+def compare(lst_of_comparison_functions,max_n):
         d = {}
         for func in lst_of_comparison_functions:
             d[func.name] = {}
         max = 10000
-        max_length = 10
+        max_length = max_n
         iterations = 100
-        for i in range(max_length):
+        for i in range(1,max_length):
+            print(i)
             n = 2**i
             sub_d = {}
             for func in lst_of_comparison_functions:
@@ -152,7 +160,6 @@ def compare(lst_of_comparison_functions):
                 lst = random_list_of_ints(n,0,max)
                 for func in lst_of_comparison_functions:
                     start = time.time()
-                    print(lst)
                     func.sort(lst)
                     total = time.time() - start
                     sub_d[func.name] = sub_d[func.name] + total
@@ -161,34 +168,32 @@ def compare(lst_of_comparison_functions):
         return d
 
 def main():
-    max_length = 10
-    d = compare_radix_sort(96,100)
+    max_length = 12
+
+    fig = plt.figure()
+
+
 
     """
-    d = compare([Insertion_Sort,Mergesort])
-    plt.plot([2**i for i in range(max_length)], [d["merge"][2**i] for i in range(max_length)], 'r--', linewidth=2, markersize=12,label="merge")
-    plt.plot([2**i for i in range(max_length)], [d["insertion"][2**i] for i in range(max_length)], 'b--',label="insertion")
-    pylab.legend(loc='upper left')
-    plt.ylabel('time in seconds')
-    plt.xlabel('n')
-    plt.show()
-    """
-    b = {}
-    i = 0
-    l = ["b*","g*",'r*','c*','m*',"y*","k*",'g^',"r^","b^"]
-    for base in d.keys():
-        b[base] = l[i]
-        i = i + 1
-    for base in d.keys():
-        plt.plot([2**i for i in range(max_length)], [d[base][2**i] for i in range(max_length)], b[base], linewidth=2, markersize=12,label=str(base))
+    d = compare([Insertion_Sort,Mergesort],max_length)
+    print([2**i for i in range(1,max_length)])
+    plt.plot([2**i for i in range(1,max_length)], [d["merge"][2**i] for i in range(1,max_length)], 'r-', linewidth=2, markersize=12,label="merge")
+    plt.plot([2**i for i in range(1,max_length)], [d["insertion"][2**i] for i in range(1,max_length)], 'b-',label="insertion")
     plt.legend(loc='upper left')
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
-    start = time.time()
-    while start-time.time()<120:
-        pass
-    exit()
+    fig.savefig("merge_v_insertion.png", dpi=fig.dpi)
+    plt.clf()
+    """
+    d = compare_radix_sort(5,11,max_length)
+    for base in d.keys():
+        plt.plot([2**i for i in range(1,max_length)], [d[base][2**i] for i in range(1,max_length)], linewidth=2, markersize=12,label=str(base))
+    plt.legend(loc='upper left',title='base')
+    plt.ylabel('time in seconds')
+    plt.xlabel('n')
+    plt.show()
+    fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
 
 
 
