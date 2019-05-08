@@ -4,6 +4,8 @@ import time
 import matplotlib.pyplot as plt
 import math
 
+from pytablewriter import MarkdownTableWriter
+
 
 
 
@@ -167,6 +169,16 @@ def compare(lst_of_comparison_functions,max_n):
                 d[func.name][n] = sub_d[func.name]/iterations
         return d
 
+def print_out(d,max_n):
+    row_format ="{:>20}" * (max_n + 1)
+    l = [2**i for i in range(1,max_n)]
+    print(row_format.format("", *l))
+    for base in d.keys():
+        print(row_format.format("|"+base, *["|"+str(round(d[base][2**i], 5)) ]),end="|")
+
+
+
+
 def main():
     max_length = 12
 
@@ -174,8 +186,13 @@ def main():
 
 
 
-    """
+
     d = compare([Insertion_Sort,Mergesort],max_length)
+    writer = MarkdownTableWriter()
+    writer.table_name = "Merge v Insertion"
+    writer.headers = ["function"]+[str(2**i) for i in range(1,max_length)]
+    writer.value_matrix = [[func]+[d[func][2**i] for i in range(1,max_length)]for func in d.keys()]
+    writer.write_table()
     print([2**i for i in range(1,max_length)])
     plt.plot([2**i for i in range(1,max_length)], [d["merge"][2**i] for i in range(1,max_length)], 'r-', linewidth=2, markersize=12,label="merge")
     plt.plot([2**i for i in range(1,max_length)], [d["insertion"][2**i] for i in range(1,max_length)], 'b-',label="insertion")
@@ -186,14 +203,25 @@ def main():
     fig.savefig("merge_v_insertion.png", dpi=fig.dpi)
     plt.clf()
     """
+
+
+
+
+
     d = compare_radix_sort(5,11,max_length)
+    writer = MarkdownTableWriter()
+    writer.table_name = "Radix Base"
+    writer.headers = ["base"]+[str(2**i) for i in range(1,max_length)]
+    writer.value_matrix = [[base]+[d[base][2**i] for i in range(1,max_length)]for base in d.keys()]
+    writer.write_table()
     for base in d.keys():
         plt.plot([2**i for i in range(1,max_length)], [d[base][2**i] for i in range(1,max_length)], linewidth=2, markersize=12,label=str(base))
     plt.legend(loc='upper left',title='base')
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
-    fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
+    """
+    #fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
 
 
 
