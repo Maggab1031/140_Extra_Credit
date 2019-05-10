@@ -16,10 +16,10 @@ The actual mean times are as follows:
 
 ![Graph of Merge v Insertion v Merge Mixed](https://github.com/Maggab1031/140_Extra_Credit/blob/master/Merge_v_insertion_with_merge_mixed.png "Merge v Insertion v merge mixed")
 
-After noticing that for values under 128 are 
+After noticing that for values under 128 are better for insertion than merged, I decided to make a version of mergesort that would use insertion sort for smaller lists, so the recursion takes overall less time. In the results for the lists tested below, my merge-mixed sort does as well or better than Merge sort and almost always is as quick or better than insertion sort. Because of this, I would recommend the mixed sort in most cases. However, when choosing between insertion and pure merge, I would choose Insertion for lists smaller than 128 and Merge for larger lists.
 
 # Merge v Insertion v Merge Mixed
-| function  |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  | 4096  |
+| n=  |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  | 4096  |
 |-----------|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|------:|
 |insertion  |**0.000001**|**0.000002**|**0.000005**|0.000015|**0.000049**|0.000158|0.000594|0.002044|0.009161|0.036160|0.155227|0.59200|
 |merge      |0.000002|0.000006|0.000013|0.000031|0.000079|0.000177|0.000394|0.000827|0.001903|**0.004028**|0.009217|0.01899|
@@ -28,11 +28,11 @@ After noticing that for values under 128 are
 
 2. What base is best to use with Radix sort when sorting lists with random ints?
 
-I implemented Radix sort using the recomendations I found online at Geeksforgeeks.com. Using this, I used pyplot to make a graph comparing the runtimes of various bases, including the length of the list itself.Similar to the other, I iterated over various lengths of random lists and did multiple trials
+I implemented Radix sort using the recomendations I found online at Geeksforgeeks.com. Using this, I used pyplot to make a graph comparing the runtimes of various bases, including the length of the list itself. Similar to the other, I iterated over various lengths of random lists 
 
 If you are interested in the raw averages, here they are:
 # Radix Base
-|base|   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  |
+| n = |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  |
 |----|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
 |   5|0.000020|0.000029|0.000041|0.000074|0.000120|0.000185|0.000314|0.000633|0.001319|0.002404|0.004718|
 |   6|0.000020|0.000028|0.000041|0.000073|0.000121|0.000186|0.000314|0.000629|0.001309|0.002374|0.004678|
