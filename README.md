@@ -1,6 +1,7 @@
 # CS140 Extra Credit
 ## Gabe Magee
 
+*In all tables, the best values are in **bold***
 
 1. For what values of n is insertion sort faster than mergesort?
 
@@ -10,11 +11,9 @@ The actual mean times are as follows:
 # Merge v Insertion
 |n        |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  |
 |---------|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
-|insertion|0.000001|0.000003|0.000006|0.000017|0.000051|0.000198|0.000656|0.002094|0.008489|0.039241|0.143518|
-|merge    |0.000002|0.000006|0.000015|0.000036|0.000079|0.000208|0.000437|0.000844|0.001777|0.004369|0.008508|
+|insertion|**0.000001**|**0.000003**|**0.000006**|**0.000017**|**0.000051**|**0.000198**|0.000656|0.002094|0.008489|0.039241|0.143518|
+|merge    |0.000002|0.000006|0.000015|0.000036|0.000079|0.000208|**0.000437**|**0.000844**|**0.001777**|**0.004369**|**0.008508**|
 
-
-![Graph of Merge v Insertion v Merge Mixed](https://github.com/Maggab1031/140_Extra_Credit/blob/master/Merge_v_insertion_with_merge_mixed.png "Merge v Insertion v merge mixed")
 
 After noticing that for values under 128 are better for insertion than merged, I decided to make a version of mergesort that would use insertion sort for smaller lists, so the recursion takes overall less time. In the results for the lists tested below, my merge-mixed sort does as well or better than Merge sort and almost always is as quick or better than insertion sort. Because of this, I would recommend the mixed sort in most cases. However, when choosing between insertion and pure merge, I would choose Insertion for lists smaller than 128 and Merge for larger lists.
 
@@ -25,6 +24,10 @@ After noticing that for values under 128 are better for insertion than merged, I
 |merge      |0.000002|0.000006|0.000013|0.000031|0.000079|0.000177|0.000394|0.000827|0.001903|**0.004028**|0.009217|0.01899|
 |merge_mixed|**0.000001**|**0.000002**|0.000006|**0.000014**|**0.000049**|**0.000157**|**0.000395**|**0.000815**|**0.001901**|**0.004028**|**0.009138**|**0.01888**|
 
+
+In the below graph, Merge-Mixed and Merge are so close that it is hard to see the difference at this scale.
+
+![Graph of Merge v Insertion v Merge Mixed](https://github.com/Maggab1031/140_Extra_Credit/blob/master/Merge_v_insertion_with_merge_mixed.png "Merge v Insertion v merge mixed")
 
 2. What base is best to use with Radix sort when sorting lists with random ints?
 
@@ -61,4 +64,5 @@ After some advice from Professor DeVanny, I decided to add some more variable ba
 
 ![Graph of Radix 2](https://github.com/Maggab1031/140_Extra_Credit/blob/master/new_radix.png "Radix")
 
+In this chart, we can see that at large values, a base of square root of n is the best to use. However, in lower size lists, it is better to use a base of 10 or even n/2. A lot of the runtime depends on the maximum value present in the list, as the runtime for radix sort is O(nlog_b(k)), where b is the base and k is the largest element.
 
