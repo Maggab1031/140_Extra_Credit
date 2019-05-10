@@ -66,6 +66,40 @@ def toString(n,base):
    else:
       return toString(n//base,base) + convertString[n%base]
 
+class Mergesort_mixed(Sort):
+
+    name = "merge_mixed"
+
+    @staticmethod
+    def sort(lst):
+        n = len(lst)
+        if n<100:
+            return Insertion_Sort.sort(lst)
+        else:
+            l = lst.copy()
+            if n  == 1:
+                return l
+            elif n == 0:
+                return l
+            else:
+                mid = n//2
+                left = Mergesort.sort(l[:mid])
+                right = Mergesort.sort(l[mid:])
+                l = []
+                while(len(left)>0 and len(right)>0):
+                    if left[0]>right[0]:
+                        l.append(right[0])
+                        del right[0]
+                    else:
+                        l.append(left[0])
+                        del left[0]
+                while(len(right)>0):
+                    l.append(right[0])
+                    del right[0]
+                while(len(left)>0):
+                    l.append(left[0])
+                    del left[0]
+                return l
 
 
 
@@ -231,8 +265,8 @@ def print_out(d,max_n):
 
 def main():
     max_length = 13
-    """
-    d = compare([Insertion_Sort,Mergesort],max_length)
+
+    d = compare([Insertion_Sort,Mergesort,Mergesort_mixed],max_length)
     writer = MarkdownTableWriter()
     writer.table_name = "Merge v Insertion"
     writer.headers = ["function"]+[str(2**i) for i in range(1,max_length)]
@@ -240,8 +274,9 @@ def main():
     writer.write_table()
     print([2**i for i in range(1,max_length)])
     fig = plt.figure()
-    plt.plot([2**i for i in range(1,max_length)], [d["merge"][2**i] for i in range(1,max_length)], 'r-', linewidth=2, markersize=12,label="merge")
-    plt.plot([2**i for i in range(1,max_length)], [d["insertion"][2**i] for i in range(1,max_length)], 'b-',label="insertion")
+    plt.plot([2**i for i in range(1,max_length)], [d["merge"][2**i] for i in range(1,max_length)], label="merge")
+    plt.plot([2**i for i in range(1,max_length)], [d["insertion"][2**i] for i in range(1,max_length)], label="insertion")
+    plt.plot([2**i for i in range(1,max_length)], [d["merge_mixed"][2**i] for i in range(1,max_length)], label="merge_mixed")
     plt.legend(loc='upper left')
     plt.ylabel('time in seconds')
     plt.xlabel('n')
@@ -262,7 +297,7 @@ def main():
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
-
+    """
     #fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
 
 
