@@ -6,8 +6,6 @@
 
 For these problems, I made my own versions of each sorting algorithm, created random lists in doubling size, and timed them sorting each list. To make sure I was accounting for outliers, I averaged the results over 100 iterations at each size of list. I got this result, showing Iterative search's O(n^2) nature and Merge sorts O(nlog(n)) nature.
 
-![Graph of Merge v Insertion](https://github.com/Maggab1031/140_Extra_Credit/blob/master/merge_v_insertion.png "Merge v Insertion")
-
 The actual mean times are as follows:
 # Merge v Insertion
 |n        |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  |
@@ -18,20 +16,19 @@ The actual mean times are as follows:
 
 ![Graph of Merge v Insertion v Merge Mixed](https://github.com/Maggab1031/140_Extra_Credit/blob/master/Merge_v_insertion_with_merge_mixed.png "Merge v Insertion v merge mixed")
 
+After noticing that for values under 128 are 
+
 # Merge v Insertion v Merge Mixed
 | function  |   2    |   4    |   8    |   16   |   32   |   64   |  128   |  256   |  512   |  1024  |  2048  | 4096  |
 |-----------|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|------:|
-|insertion  |0.000001|0.000002|0.000005|0.000015|0.000049|0.000159|0.000564|0.002061|0.008741|0.036119|0.146618|0.60664|
-|merge      |0.000002|0.000005|0.000013|0.000032|0.000079|0.000178|0.000383|0.000827|0.001837|0.004011|0.008719|0.01919|
-|merge_mixed|0.000001|0.000002|0.000005|0.000015|0.000049|0.000163|0.000379|0.000823|0.001819|0.003995|0.008693|0.01922|
+|insertion  |**0.000001**|**0.000002**|**0.000005**|0.000015|**0.000049**|0.000158|0.000594|0.002044|0.009161|0.036160|0.155227|0.59200|
+|merge      |0.000002|0.000006|0.000013|0.000031|0.000079|0.000177|0.000394|0.000827|0.001903|**0.004028**|0.009217|0.01899|
+|merge_mixed|**0.000001**|**0.000002**|0.000006|**0.000014**|**0.000049**|**0.000157**|**0.000395**|**0.000815**|**0.001901**|**0.004028**|**0.009138**|**0.01888**|
 
 
 2. What base is best to use with Radix sort when sorting lists with random ints?
 
 I implemented Radix sort using the recomendations I found online at Geeksforgeeks.com. Using this, I used pyplot to make a graph comparing the runtimes of various bases, including the length of the list itself.Similar to the other, I iterated over various lengths of random lists and did multiple trials
-
-![Graph of Radix](https://github.com/Maggab1031/140_Extra_Credit/blob/master/radix.png "Radix")
-
 
 If you are interested in the raw averages, here they are:
 # Radix Base
@@ -65,4 +62,3 @@ After some advice from Professor DeVanny, I decided to add some more variable ba
 ![Graph of Radix 2](https://github.com/Maggab1031/140_Extra_Credit/blob/master/new_radix.png "Radix")
 
 
-It seems the higher we go, the better the base. Some bases are better, like 5,8,10 (possibly due to their nature interacting with different numbers). Theoretically, n should be the best. But with higher max numbers present in the list it becomes more and more of a burden.
