@@ -73,7 +73,7 @@ class Mergesort_mixed(Sort):
     @staticmethod
     def sort(lst):
         n = len(lst)
-        if n<100:
+        if n<128:
             return Insertion_Sort.sort(lst)
         else:
             l = lst.copy()
