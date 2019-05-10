@@ -186,18 +186,15 @@ def compare_radix_sort_2(list_of_bases,max_length=10):
     for i in list_of_bases:
         d[i] = {}
     max = 10000
-    iterations = 10
+    iterations = 100
     for j in range(1,max_length):
-        print(j)
         n = 2**j
         sub_d = {}
         for i in list_of_bases:
             sub_d[i] = 0.0
         for k in range(iterations):
-            print(j,k)
             lst = random_list_of_ints(n,0,max)
             for i in list_of_bases:
-                print(j,k,i)
                 if i.isdigit():
                     start = time.time()
                     Radix_Sort.sort(lst,int(i))
@@ -268,7 +265,7 @@ def main():
 
     d = compare([Insertion_Sort,Mergesort,Mergesort_mixed],max_length)
     writer = MarkdownTableWriter()
-    writer.table_name = "Merge v Insertion"
+    writer.table_name = "Merge v Insertion v Merge Mixed"
     writer.headers = ["function"]+[str(2**i) for i in range(1,max_length)]
     writer.value_matrix = [[func]+[d[func][2**i] for i in range(1,max_length)]for func in d.keys()]
     writer.write_table()
@@ -281,7 +278,6 @@ def main():
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
-    fig.savefig("merge_v_insertion.png", dpi=fig.dpi)
     plt.clf()
     """
     d = compare_radix_sort_2(["2","8","5","10","16","n","n/2","2n","sqrt(n)"],max_length)
@@ -298,6 +294,7 @@ def main():
     plt.xlabel('n')
     plt.show()
     """
+
     #fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
 
 
