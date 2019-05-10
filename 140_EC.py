@@ -29,29 +29,32 @@ class Radix_Sort(Sort):
 
     @staticmethod
     def sort( lst, RADIX =10 ):
-        aList = lst.copy()
-        maxLength = False
-        tmp , placement = -1, 1
-        while not maxLength:
-            maxLength = True
-            # declare and initialize buckets
-            buckets = [list() for _ in range( RADIX )]
-            # split aList between lists
-            for i in aList:
-                tmp = i / placement
-                buckets[int(tmp % RADIX)].append( i )
-                if maxLength and int(tmp) > 0:
-                    maxLength = False
-            # empty lists into aList array
-            a = 0
-            for b in range( RADIX ):
-                buck = buckets[b]
-                for i in buck:
-                    aList[a] = i
-                    a += 1
-            # move to next digit
-            placement *= RADIX
-        return aList
+        if RADIX ==0 or RADIX == 1:
+            pass
+        else:
+            aList = lst.copy()
+            maxLength = False
+            tmp , placement = -1, 1
+            while not maxLength:
+                maxLength = True
+                # declare and initialize buckets
+                buckets = [list() for _ in range( RADIX )]
+                # split aList between lists
+                for i in aList:
+                    tmp = i / placement
+                    buckets[int(tmp % RADIX)].append( i )
+                    if maxLength and int(tmp) > 0:
+                        maxLength = False
+                # empty lists into aList array
+                a = 0
+                for b in range( RADIX ):
+                    buck = buckets[b]
+                    for i in buck:
+                        aList[a] = i
+                        a += 1
+                # move to next digit
+                placement *= RADIX
+            return aList
 
 def toBase(n,base):
     return int(toString(n,base))
@@ -144,6 +147,53 @@ def compare_radix_sort(floor=2,ceiling=10,max_length=10):
         d["n"][n] = sub_d["n"]/iterations
     return d
 
+def compare_radix_sort_2(list_of_bases,max_length=10):
+    d = {}
+    for i in list_of_bases:
+        d[i] = {}
+    max = 10000
+    iterations = 10
+    for j in range(1,max_length):
+        print(j)
+        n = 2**j
+        sub_d = {}
+        for i in list_of_bases:
+            sub_d[i] = 0.0
+        for k in range(iterations):
+            print(j,k)
+            lst = random_list_of_ints(n,0,max)
+            for i in list_of_bases:
+                print(j,k,i)
+                if i.isdigit():
+                    start = time.time()
+                    Radix_Sort.sort(lst,int(i))
+                    total = time.time() - start
+                    sub_d[i] = sub_d[i] + total
+                elif i=="n":
+                    start = time.time()
+                    Radix_Sort.sort(lst,n)
+                    total = time.time() - start
+                    sub_d[i] = sub_d[i] + total
+                elif i=="n/2":
+                    start = time.time()
+                    Radix_Sort.sort(lst,int(n/2))
+                    total = time.time() - start
+                    sub_d[i] = sub_d[i] + total
+                elif i=="2n":
+                    start = time.time()
+                    Radix_Sort.sort(lst,n*2)
+                    total = time.time() - start
+                    sub_d[i] = sub_d[i] + total
+                elif i=="sqrt(n)":
+                    start = time.time()
+                    Radix_Sort.sort(lst,int(math.sqrt(n)))
+                    total = time.time() - start
+                    sub_d[i] = sub_d[i] + total
+        for i in list_of_bases:
+            d[i][n] = sub_d[i]/iterations
+    return d
+
+
 
 def compare(lst_of_comparison_functions,max_n):
         d = {}
@@ -180,13 +230,8 @@ def print_out(d,max_n):
 
 
 def main():
-    max_length = 12
-
-    fig = plt.figure()
-
-
-
-
+    max_length = 13
+    """
     d = compare([Insertion_Sort,Mergesort],max_length)
     writer = MarkdownTableWriter()
     writer.table_name = "Merge v Insertion"
@@ -194,6 +239,7 @@ def main():
     writer.value_matrix = [[func]+[d[func][2**i] for i in range(1,max_length)]for func in d.keys()]
     writer.write_table()
     print([2**i for i in range(1,max_length)])
+    fig = plt.figure()
     plt.plot([2**i for i in range(1,max_length)], [d["merge"][2**i] for i in range(1,max_length)], 'r-', linewidth=2, markersize=12,label="merge")
     plt.plot([2**i for i in range(1,max_length)], [d["insertion"][2**i] for i in range(1,max_length)], 'b-',label="insertion")
     plt.legend(loc='upper left')
@@ -203,24 +249,20 @@ def main():
     fig.savefig("merge_v_insertion.png", dpi=fig.dpi)
     plt.clf()
     """
-
-
-
-
-
-    d = compare_radix_sort(5,11,max_length)
+    d = compare_radix_sort_2(["2","8","5","10","16","n","n/2","2n","sqrt(n)"],max_length)
     writer = MarkdownTableWriter()
     writer.table_name = "Radix Base"
     writer.headers = ["base"]+[str(2**i) for i in range(1,max_length)]
     writer.value_matrix = [[base]+[d[base][2**i] for i in range(1,max_length)]for base in d.keys()]
     writer.write_table()
+    fig = plt.figure()
     for base in d.keys():
         plt.plot([2**i for i in range(1,max_length)], [d[base][2**i] for i in range(1,max_length)], linewidth=2, markersize=12,label=str(base))
     plt.legend(loc='upper left',title='base')
     plt.ylabel('time in seconds')
     plt.xlabel('n')
     plt.show()
-    """
+
     #fig.savefig("radix_("+min+"_"+max+").png", dpi=fig.dpi)
 
 
