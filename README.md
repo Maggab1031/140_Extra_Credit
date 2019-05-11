@@ -25,7 +25,7 @@ After noticing that for values under 128 are better for insertion than merged, I
 |merge_mixed|**0.000001**|**0.000002**|0.000006|**0.000014**|**0.000049**|**0.000157**|**0.000395**|**0.000815**|**0.001901**|**0.004028**|**0.009138**|**0.01888**|
 
 
-In the below graph, Merge-Mixed and Merge are so close that it is hard to see the difference at this scale.
+In the below graph, Merge-Mixed and Merge are so close that it is hard to see the difference at this scale. THis likely means the constants are better with Merge-Mixed than pure Merge.
 
 ![Graph of Merge v Insertion v Merge Mixed](https://github.com/Maggab1031/140_Extra_Credit/blob/master/Merge_v_insertion_with_merge_mixed.png "Merge v Insertion v merge mixed")
 
@@ -64,5 +64,5 @@ After some advice from Professor DeVanny, I decided to add some more variable ba
 
 ![Graph of Radix 2](https://github.com/Maggab1031/140_Extra_Credit/blob/master/new_radix.png "Radix")
 
-In this chart, we can see that at large values, a base of square root of n is the best to use. However, in lower size lists, it is better to use a base of 10 or even n/2. A lot of the runtime depends on the maximum value present in the list, as the runtime for radix sort is O(nlog_b(k)), where b is the base and k is the largest element.
+In this chart, we can see that at large values, a base of square root of n is the best to use. However, in lower size lists, it is better to use a base of 10 or even n or n/2. A lot of the runtime depends on the maximum value present in the list, as the runtime for radix sort is O(nlog_b(k)), where b is the base and k is the largest element.
 
